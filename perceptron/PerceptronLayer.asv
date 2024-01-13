@@ -16,7 +16,6 @@ classdef PerceptronLayer
                 cons.numInputs = params{1};
                 cons.numOutputs = params{2};
                 %pre-allocate matrix and vector
-
             elseif((ismatrix(params{1}) && isvector(params{2})) || (ismatrix(params{2}) && isvector(params{1})))
                 if(ismatrix(params{1})) %matrix is in param 1
                     %stuff
@@ -26,6 +25,7 @@ classdef PerceptronLayer
             else
                 error("Invalid arguments.")
             end
+            cons = params;
         end
 
         
