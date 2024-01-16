@@ -32,10 +32,54 @@ classdef PerceptronLayer
             else
                 error("Invalid arguments.")
             end
-            if(p)
-            cons.transferFunc = params{3};
+            if(isstring(params{3}))
+                cons.transferFunc = params{3};
+            else
+                error("Invalid transfer function argument");
+            end
+        end
+        
+        %---transfer functions---&
+        %send to correct transfer function
+        function func = doFunc(this, n)
+            switch this.transferFunc
+                case 'hardlim'
+                    func = 
         end
 
+        %hardlim
+        function f = hardlim(n)
+            if(n < 0)
+                f = 0;
+            else %if n >= 0
+                f = 1;
+            end
+        end
+
+        %hardlimS
+        function f = hardlims(n)
+            if(n < 0)
+                f = -1;
+            else %% n >=0
+                f = 1;
+            end
+        end
         
+        %---forward functions---%
+        %forward with a loop
+        function output = forwardLoop(this, input)
+            output = zeros(this.numOutputs, 1);
+            for i = 1:this.numOutputs
+                n = this.weights * input + this.bias;
+                output = 
+                %stuff
+            end
+            
+        end
+
+        %forward using MATLAB operations
+            function output = forwardOps(this, input)
+            
+        end
     end
 end

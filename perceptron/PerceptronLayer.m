@@ -39,7 +39,19 @@ classdef PerceptronLayer
             end
         end
         
-        %---transfer functions---&
+        %---transfer functions---%
+        %send to correct transfer function
+        function func = doFunc(this, n)
+            switch this.transferFunc
+                case "hardlim"
+                    func = this.hardlim(n);
+                case "hardlims"
+                    func = this.hardlims(n);
+                otherwise
+                    error("Transfer function not supported.");
+            end
+        end
+
         %hardlim
         function f = hardlim(n)
             if(n < 0)
@@ -57,15 +69,22 @@ classdef PerceptronLayer
                 f = 1;
             end
         end
-
+        
+        %---forward functions---%
         %forward with a loop
-        function f = forwardLoop(vec)
-            f = vec;
+        function output = forwardLoop(this, input)
+            output = zeros(this.numOutputs, 1);
+            for i = 1:this.numOutputs
+                n = this.weights * input + this.bias;
+                output = 
+                %stuff
+            end
+            
         end
 
         %forward using MATLAB operations
-        function f = forwardOps(vec)
-            f = vec;
+            function output = forwardOps(this, input)
+            
         end
     end
 end
