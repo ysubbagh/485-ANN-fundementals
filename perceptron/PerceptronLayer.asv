@@ -8,13 +8,13 @@ classdef PerceptronLayer
     end
     methods
         %constructor
-        function cons = PerceptronLayer(params)
+        function cons = PerceptronLayer(p1, p2, p3)
             if(nargin ~= 3)
                 error("Invalid number of arguments.")
-            elseif(isscalar(params{1}) && isscalar(params{2}))
+            elseif(isscalar(p1) && isscalar(p2))
                 %set the input and output to the scalers
-                cons.numInputs = params{1};
-                cons.numOutputs = params{2};
+                cons.numInputs = p1;
+                cons.numOutputs = p2;
                 %pre-allocate matrix and vector
                 cons.weights = rand(cons.numOutputs, cons.numInputs) * 2 - 1;
                 cons.bias = rand(cons.numOutputs, 1) * 2 - 1;
@@ -23,8 +23,8 @@ classdef PerceptronLayer
                     cons.weights = params{1};
                     cons.bias = params{2};
                 else %matric is in param2
-                    cons.weights = params{2};
-                    cons.bias = params{1};
+                    cons.weights = p2;
+                    cons.bias = p1;
                 end
                 %setup scalers
                 cons.numInputs = size(cons.weights, 2);
@@ -32,19 +32,24 @@ classdef PerceptronLayer
             else
                 error("Invalid arguments.")
             end
-            if(isstring(params{3}))
-                cons.transferFunc = params{3};
+            if(isstring(p3))
+                cons.transferFunc = p3;
             else
                 error("Invalid transfer function argument");
             end
         end
         
-        %---transfer functions---&
-        %send to correct transfer function
+        %---transfer functions---%
+        %transfer function FACTORY
         function func = doFunc(this, n)
             switch this.transferFunc
-                case 'hardlim'
-                    func = 
+                case "hardlim"
+                    func = this.hardlim(n);
+                case "hardlims"
+                    func = this.hardlims(n);
+                otherwise
+                    error("Transfer function not supported.");
+            end
         end
 
         %hardlim
@@ -70,16 +75,17 @@ classdef PerceptronLayer
         function output = forwardLoop(this, input)
             output = zeros(this.numOutputs, 1);
             for i = 1:this.numOutputs
-                n = this.weights * input + this.bias;
-                output = 
-                %stuff
+                n = this.weights(i, :) * input + this.bias(i);
+                output(i) = this.doFunc(n);
             end
             
         end
 
         %forward using MATLAB operations
             function output = forwardOps(this, input)
-            
+            output = 0; %temp
         end
     end
 end
+
+
