@@ -83,7 +83,8 @@ classdef PerceptronLayer
 
         %forward using MATLAB operations
             function output = forwardOps(this, input)
-            output = 0; %temp
+                n = this.weights * input + this.bias;
+                output = arrayfun(@this.doFunc, n);
         end
     end
 end
