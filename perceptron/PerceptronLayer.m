@@ -75,16 +75,17 @@ classdef PerceptronLayer
         function output = forwardLoop(this, input)
             output = zeros(this.numOutputs, 1);
             for i = 1:this.numOutputs
-                n = this.weights * input + this.bias;
-                output = 
-                %stuff
+                n = this.weights(i, :) * input + this.bias(i);
+                output(i) = this.doFunc(n);
             end
             
         end
 
         %forward using MATLAB operations
             function output = forwardOps(this, input)
-            
+            output = 0; %temp
         end
     end
 end
+
+
