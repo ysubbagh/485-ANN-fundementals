@@ -38,15 +38,24 @@ classdef PerceptronLayer
                 error("Invalid transfer function argument");
             end
         end
-
+        
+        %---transfer functions---&
         %hardlim
         function f = hardlim(n)
-            f = n;
+            if(n < 0)
+                f = 0;
+            else %if n >= 0
+                f = 1;
+            end
         end
 
-        %hardlims
+        %hardlimS
         function f = hardlims(n)
-            f = n;
+            if(n < 0)
+                f = -1;
+            else %% n >=0
+                f = 1;
+            end
         end
 
         %forward with a loop
