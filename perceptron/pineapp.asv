@@ -1,0 +1,3 @@
+% setup layer
+t1 = PerceptronLayer([1 1 1; 1 1 1; 1 1 1], [0 0], "hardlim");
+

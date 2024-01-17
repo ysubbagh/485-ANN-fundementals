@@ -6,14 +6,14 @@ t1.weights = [1 1; 1 1];
 t1.bias = [-1; 0];
 
 % Test the forward methods with binary input patterns
-inputPatterns = [0 0; 0 1; 1 0; 1 1];
+input = [0 0; 0 1; 1 0; 1 1];
 
 
 % Forward with loop
-outputWithLoop = zeros(size(inputPatterns, 1), t1.numOutputs);
-for i = 1:size(inputPatterns, 1)
-    outputWithLoop(i, :) = t1.forwardLoop(inputPatterns(i, :).');
+outputWithForwardLoop = zeros(size(input, 1), t1.numOutputs);
+for i = 1:size(input, 1)
+    outputWithForwardLoop(i, :) = t1.forwardLoop(input(i, :).');
 end
 
 % Forward vectorized
-outputVectorized = t1.forwardOps(inputPatterns.').';
+outputForwardOps = t1.forwardOps(input.').';
