@@ -88,7 +88,6 @@ classdef PerceptronLayer
         end
 
         %---training functions---%
-
         %This method takes in a single argument: a vector of errors. 
         % It checks that the length of that vector matches the number of neurons, 
         % outputting an informative error message if that is not the case. 
@@ -98,7 +97,7 @@ classdef PerceptronLayer
             eOutput = 0;
         end
     
-        %print out the layer's weights and biases 
+        %print out the layer's weights and biases (to the console)
         function print(this)
             %print weights
             disp("Weights: ");
@@ -116,6 +115,7 @@ classdef PerceptronLayer
 end
 
 %---helper functions outside of class---%
+%calculate the erros of neuron given the target value and produced output
 function e = errorLoss(a, t)
     e = t - a;
 end
