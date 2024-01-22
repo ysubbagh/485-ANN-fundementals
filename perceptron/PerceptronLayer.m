@@ -82,11 +82,33 @@ classdef PerceptronLayer
         end
 
         %forward using MATLAB operations
-            function output = forwardOps(this, input)
-                n = this.weights * input + this.bias;
-                output = arrayfun(@this.doFunc, n);
+        function output = forwardOps(this, input)
+            n = this.weights * input + this.bias;
+            output = arrayfun(@this.doFunc, n);
         end
+
+        %---training functions---%
+
+        %This method takes in a single argument: a vector of errors. 
+        % It checks that the length of that vector matches the number of neurons, 
+        % outputting an informative error message if that is not the case. 
+        % Assuming the length matches, it updates the layer's weights and biases based on the error input.
+        function eOutput = backward(eVec)
+
+            eOutput = 0;
+        end
+    
+        %print out the layer's weights and biases 
+        function p = print()
+
+        end
+
     end
+end
+
+%---helper functions outside of class---%
+function e = errorLoss(a, t)
+    e = t - a;
 end
 
 
