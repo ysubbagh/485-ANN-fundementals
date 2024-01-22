@@ -99,8 +99,17 @@ classdef PerceptronLayer
         end
     
         %print out the layer's weights and biases 
-        function p = print()
+        function print(this)
+            %print weights
+            disp("Weights: ");
+            for i = 1:this.weights
 
+            end
+            %print biases
+            disp("Bias: ");
+            for i = 1:this.bias
+
+            end
         end
 
     end
