@@ -17,3 +17,5 @@ end
 
 % Forward vectorized
 outputForwardOps = t1.forwardOps(input.').';
+
+t1.print();
