@@ -99,11 +99,8 @@ classdef PerceptronLayer
                 error('Length of the errors vector must match the number of neurons.');
             end
 
-            % Calculate weight updates
-            deltaWeights = eVec' * [this.doFunc(this.weights * this.lastInput + this.bias) * this.lastInput];
-
             % Update weights and bias
-            this.weights = this.weights + deltaWeights;
+            this.weights = this.weights + eVec' * this.lastInput;
             this.bias = this.bias + eVec;
         end
     
