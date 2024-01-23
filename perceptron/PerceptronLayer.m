@@ -5,6 +5,7 @@ classdef PerceptronLayer
         numInputs
         numOutputs
         transferFunc
+        lastInput
     end
     methods
         %constructor
@@ -92,9 +93,18 @@ classdef PerceptronLayer
         % It checks that the length of that vector matches the number of neurons, 
         % outputting an informative error message if that is not the case. 
         % Assuming the length matches, it updates the layer's weights and biases based on the error input.
-        function eOutput = backward(eVec)
+        function backward(this, eVec)
+            % Check if the length of the errors vector matches the number of neurons
+            if length(eVec) ~= this.numOutputs
+                error('Length of the errors vector must match the number of neurons.');
+            end
 
-            eOutput = 0;
+            % Calculate weight updates
+            deltaWeights = eVec' * [this.doFunc(this.weights * this.lastInput + this.bias) * this.lastInput];
+
+            % Update weights and bias
+            this.weights = this.weights + deltaWeights;
+            this.bias = this.bias + eVec;
         end
     
         %print out the layer's weights and biases (to the console)
