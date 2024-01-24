@@ -119,5 +119,10 @@ classdef PerceptronLayer
             e = t - a;
         end
 
+        %modify the weights and biases using a supervised training rule
+        function train(this, targets)
+            %train the model
+        end
+
     end
 end
