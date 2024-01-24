@@ -9,32 +9,32 @@ classdef PerceptronLayer
     end
     methods
         %constructor
-        function cons = PerceptronLayer(p1, p2, p3)
+        function this = PerceptronLayer(p1, p2, p3)
             if(nargin ~= 3)
                 error("Invalid number of arguments.")
             elseif(isscalar(p1) && isscalar(p2))
                 %set the input and output to the scalers
-                cons.numInputs = p1;
-                cons.numOutputs = p2;
+                this.numInputs = p1;
+                this.numOutputs = p2;
                 %pre-allocate matrix and vector
-                cons.weights = rand(cons.numOutputs, cons.numInputs) * 2 - 1;
-                cons.bias = rand(cons.numOutputs, 1) * 2 - 1;
+                this.weights = rand(this.numOutputs, this.numInputs) * 2 - 1;
+                this.bias = rand(this.numOutputs, 1) * 2 - 1;
             elseif((ismatrix(p1) && isvector(p2)) || (ismatrix(p2) && isvector(p1)))
                 if(ismatrix(p1)) %matrix is in param 1
-                    cons.weights = p1;
-                    cons.bias = p2;
+                    this.weights = p1;
+                    this.bias = p2;
                 else %matric is in param2
-                    cons.weights = p2;
-                    cons.bias = p1;
+                    this.weights = p2;
+                    this.bias = p1;
                 end
                 %setup scalers
-                cons.numInputs = size(cons.weights, 2);
-                cons.numOutputs = size(cons.weights, 1);
+                this.numInputs = size(this.weights, 2);
+                this.numOutputs = size(this.weights, 1);
             else
                 error("Invalid arguments.")
             end
             if(isstring(p3))
-                cons.transferFunc = p3;
+                this.transferFunc = p3;
             else
                 error("Invalid transfer function argument");
             end
@@ -93,7 +93,7 @@ classdef PerceptronLayer
         % It checks that the length of that vector matches the number of neurons, 
         % outputting an informative error message if that is not the case. 
         % Assuming the length matches, it updates the layer's weights and biases based on the error input.
-        function backward(this, eVec)
+        function this = backward(this, eVec)
             % Check if the length of the errors vector matches the number of neurons
             if length(eVec) ~= this.numOutputs
                 error('Length of the errors vector must match the number of neurons.');
@@ -114,11 +114,6 @@ classdef PerceptronLayer
             disp(this.bias);
         end
 
-        %calculate the erros of neuron given the target value and produced output
-        function e = errorLoss(a, t)
-            e = t - a;
-        end
-
         %modify the weights and biases using a supervised training rule
         function train(this, inputs, target)
            %setup error vector
@@ -130,12 +125,21 @@ classdef PerceptronLayer
                 output = this.forwardOps(inputs);
 
                 %get error
-                eVec = errorLoss(output, target);
+                eVec = PerceptronLayer.errorLoss(output, target);
 
                 %modify values
                 this.backward(eVec);
            end
             
+        end
+
+    end
+
+    %outside of PerceptronLayer class
+    methods (Static)
+        %calculate the erros of neuron given the target value and produced output
+        function e = errorLoss(a, t)
+            e = t - a;
         end
 
     end

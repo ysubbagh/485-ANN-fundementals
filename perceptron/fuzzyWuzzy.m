@@ -13,6 +13,6 @@ input = [
 targets = [0; 0; 1; 1];
 
 %train
-%fuzzyLayer.train(input', targets);
+fuzzyLayer.train(input', targets);
 
 fuzzyLayer.print();
