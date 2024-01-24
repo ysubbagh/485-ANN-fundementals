@@ -125,10 +125,14 @@ classdef PerceptronLayer
            while any(eVec ~= 0)
                 %get output values
                 output = this.forwardOps(inputs.').';
+                %for testing
+                disp("outupt:");
+                disp(output);
                 this.lastInput = output(count, :);
 
                 %get error
                 eVec = PerceptronLayer.errorLoss(output, target);
+                %for testing
                 disp("eVec:");
                 disp(eVec);
 
