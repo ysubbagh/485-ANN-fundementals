@@ -95,7 +95,7 @@ classdef PerceptronLayer
         % Assuming the length matches, it updates the layer's weights and biases based on the error input.
         function this = backward(this, eVec)
             % Check if the length of the errors vector matches the number of neurons
-            if size(eVec, 1) ~= this.numOutputs
+            if size(eVec, 2) ~= this.numOutputs
                 error('Length of the errors vector must match the number of neurons.');
             end
 
@@ -119,10 +119,13 @@ classdef PerceptronLayer
            %setup error vector
            eVec = ones(size(target));
 
+
            %train until error is 0 for all
+           count = 1;
            while any(eVec ~= 0)
                 %get output values
                 output = this.forwardOps(inputs.').';
+                this.lastInput = output(count, :);
 
                 %get error
                 eVec = PerceptronLayer.errorLoss(output, target);
@@ -131,6 +134,12 @@ classdef PerceptronLayer
 
                 %modify values
                 this.backward(eVec);
+
+                %mod counter
+                count = count + 1;
+                if count > size(output, 1)
+                    count = 1;
+                end
            end
             
         end
