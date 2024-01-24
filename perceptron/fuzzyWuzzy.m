@@ -3,16 +3,20 @@ fuzzyLayer = PerceptronLayer(2, 1, "hardlim");
 
 %inputs
 input = [
-    0.5 0.8; 
-    0.3 0.5;
-    0.7 0.8;
-    0.9 0.7;
+    1 4; 
+    1 5;
+    2 4;
+    2 5;
+    3 1;
+    3 2;
+    4 1;
+    4 2;
 ];
 
 %target values
-targets = [0; 0; 1; 1];
+targets = [0; 0; 0; 0; 1; 1; 1; 1;];
 
 %train
-fuzzyLayer.train(input', targets);
+fuzzyLayer.train(input, targets);
 
 fuzzyLayer.print();
