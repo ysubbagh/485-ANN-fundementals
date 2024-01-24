@@ -100,8 +100,8 @@ classdef PerceptronLayer
             end
 
             % Update weights and bias
-            this.weights = this.weights + eVec' * this.lastInput;
             this.bias = this.bias + eVec;
+            this.weights = this.weights + this.lastInput * eVec;
         end
     
         %print out the layer's weights and biases (to the console)
