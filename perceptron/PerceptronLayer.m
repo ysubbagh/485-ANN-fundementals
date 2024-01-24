@@ -100,7 +100,9 @@ classdef PerceptronLayer
             end
 
             % Update weights and bias
-            this.weights = this.weights + eVec' * this.lastInput;
+            disp("eVec add");
+            disp((eVec * this.lastInput));
+            this.weights = this.weights + (eVec .* this.lastInput);
             this.bias = this.bias + eVec;
         end
     
@@ -119,7 +121,6 @@ classdef PerceptronLayer
            %setup error vector
            eVec = ones(size(target));
 
-
            %train until error is 0 for all
            count = 1;
            while any(eVec ~= 0)
@@ -128,13 +129,12 @@ classdef PerceptronLayer
                 %for testing
                 disp("outupt:");
                 disp(output);
-                this.lastInput = output(count, :);
+                this.lastInput = inputs(count, :);
+                disp("last input:");
+                disp(this.lastInput);
 
                 %get error
                 eVec = PerceptronLayer.errorLoss(output, target);
-                %for testing
-                disp("eVec:");
-                disp(eVec);
 
                 %modify values
                 this.backward(eVec);
@@ -144,6 +144,8 @@ classdef PerceptronLayer
                 if count > size(output, 1)
                     count = 1;
                 end
+
+               this.print();
            end
             
         end
@@ -152,7 +154,7 @@ classdef PerceptronLayer
 
     %outside of PerceptronLayer class
     methods (Static)
-        %calculate the erros of neuron given the target value and produced output
+        %calculate the errors of neuron given the target value and produced output
         function e = errorLoss(a, t)
             e = t - a;
         end
