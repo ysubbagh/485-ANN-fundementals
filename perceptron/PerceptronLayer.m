@@ -93,17 +93,22 @@ classdef PerceptronLayer
         % It checks that the length of that vector matches the number of neurons, 
         % outputting an informative error message if that is not the case. 
         % Assuming the length matches, it updates the layer's weights and biases based on the error input.
-        function this = backward(this, eVec)
+        function this = backward(this, eVec, n)
             % Check if the length of the errors vector matches the number of neurons
             if size(eVec, 2) ~= this.numOutputs
                 error('Length of the errors vector must match the number of neurons.');
             end
 
             % Update weights and bias
-            disp("eVec add");
-            disp((eVec * this.lastInput));
-            this.weights = this.weights + (eVec .* this.lastInput);
-            this.bias = this.bias + eVec;
+            disp("evec val:");
+            disp(eVec(n, :));
+            disp("bias before:");
+            disp(this.bias);
+            this.bias = this.bias + eVec(n, :);
+            disp("bias after:");
+            disp(this.bias);
+
+            %this.weights = this.weights + this.lastInput * eVec(n, :);
         end
     
         %print out the layer's weights and biases (to the console)
@@ -126,26 +131,22 @@ classdef PerceptronLayer
            while any(eVec ~= 0)
                 %get output values
                 output = this.forwardOps(inputs.').';
-                %for testing
-                disp("outupt:");
-                disp(output);
                 this.lastInput = inputs(count, :);
-                disp("last input:");
-                disp(this.lastInput);
 
                 %get error
                 eVec = PerceptronLayer.errorLoss(output, target);
 
                 %modify values
-                this.backward(eVec);
+                this.backward(eVec, count);
 
                 %mod counter
-                count = count + 1;
+                count =+ 1;
                 if count > size(output, 1)
                     count = 1;
                 end
+                disp("count: " + count);
 
-               this.print();
+                %this.print();
            end
             
         end
@@ -154,15 +155,10 @@ classdef PerceptronLayer
 
     %outside of PerceptronLayer class
     methods (Static)
-        %calculate the errors of neuron given the target value and produced output
+        %calculate the erros of neuron given the target value and produced output
         function e = errorLoss(a, t)
             e = t - a;
         end
 
     end
 end
-
-
-
-
-
