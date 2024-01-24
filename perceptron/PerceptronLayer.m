@@ -114,13 +114,10 @@ classdef PerceptronLayer
             disp(this.bias);
         end
 
+        %calculate the erros of neuron given the target value and produced output
+        function e = errorLoss(a, t)
+            e = t - a;
+        end
+
     end
 end
-
-%---helper functions outside of class---%
-%calculate the erros of neuron given the target value and produced output
-function e = errorLoss(a, t)
-    e = t - a;
-end
-
-
