@@ -100,15 +100,18 @@ classdef PerceptronLayer
             end
 
             % Update weights and bias
-            disp("evec val:");
-            disp(eVec(n, :));
-            disp("bias before:");
-            disp(this.bias);
-            this.bias = this.bias + eVec(n, :);
-            disp("bias after:");
-            disp(this.bias);
+            disp("evec val: " + eVec(n, :));
+            disp("bias before: " + this.bias);
 
-            %this.weights = this.weights + this.lastInput * eVec(n, :);
+            this.bias = this.bias + eVec(n, :);
+
+            disp("bias after: " + this.bias);
+
+            disp("weights before: ");
+            disp(this.weights);
+            this.weights = this.weights + this.lastInput * eVec(n, :);
+            disp("weights after: ");
+            disp(this.weights);
         end
     
         %print out the layer's weights and biases (to the console)
@@ -124,7 +127,7 @@ classdef PerceptronLayer
         %modify the weights and biases using a supervised training rule
         function train(this, inputs, target)
            %setup error vector
-           eVec = ones(size(target));
+           eVec = PerceptronLayer.errorLoss(this.forwardOps(inputs.'), target);
 
            %train until error is 0 for all
            count = 1;
@@ -137,14 +140,16 @@ classdef PerceptronLayer
                 eVec = PerceptronLayer.errorLoss(output, target);
 
                 %modify values
-                this.backward(eVec, count);
+                this = this.backward(eVec, count);
 
                 %mod counter
-                count =+ 1;
+                count = count + 1;
                 if count > size(output, 1)
                     count = 1;
                 end
-                disp("count: " + count);
+
+                disp("evec: ");
+                disp(eVec);
 
                 %this.print();
            end
