@@ -48,6 +48,8 @@ classdef PerceptronLayer
                     func = this.hardlim(n);
                 case "hardlims"
                     func = this.hardlims(n);
+                case "purelin"
+                    func = this.purelin(n);
                 otherwise
                     error("Transfer function not supported.");
             end
@@ -69,6 +71,11 @@ classdef PerceptronLayer
             else %% n >=0
                 f = 1;
             end
+        end
+
+        %pure linear
+        function f = purelin(this, n)
+            f = n;
         end
         
         %---forward functions---%
@@ -100,18 +107,8 @@ classdef PerceptronLayer
             end
 
             % Update weights and bias
-            disp("evec val: " + eVec(n, :));
-            disp("bias before: " + this.bias);
-
             this.bias = this.bias + eVec(n, :);
-
-            disp("bias after: " + this.bias);
-
-            disp("weights before: ");
-            disp(this.weights);
             this.weights = this.weights + this.lastInput * eVec(n, :);
-            disp("weights after: ");
-            disp(this.weights);
         end
     
         %print out the layer's weights and biases (to the console)
@@ -128,32 +125,22 @@ classdef PerceptronLayer
         function train(this, inputs, target)
            %setup error vector
            eVec = PerceptronLayer.errorLoss(this.forwardOps(inputs.'), target);
-
            %train until error is 0 for all
            count = 1;
            while any(eVec ~= 0)
                 %get output values
                 output = this.forwardOps(inputs.').';
                 this.lastInput = inputs(count, :);
-
                 %get error
                 eVec = PerceptronLayer.errorLoss(output, target);
-
                 %modify values
                 this = this.backward(eVec, count);
-
                 %mod counter
                 count = count + 1;
                 if count > size(output, 1)
                     count = 1;
                 end
-
-                disp("evec: ");
-                disp(eVec);
-
-                %this.print();
            end
-            
         end
 
     end

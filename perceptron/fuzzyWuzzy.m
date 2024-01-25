@@ -16,7 +16,6 @@ input = [
 %target values
 targets = [0; 0; 0; 0; 1; 1; 1; 1;];
 
-%train
+%train & report
 fuzzyLayer.train(input, targets);
-
 fuzzyLayer.print();
