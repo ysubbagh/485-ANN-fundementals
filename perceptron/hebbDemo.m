@@ -14,7 +14,7 @@ targets = [1 0 0; 0 1 0; 0 0 1;];
 binImg = binImg.train(inputPattern, targets);
 
 %print for validation
-binImg.print();
+%printCon(binImg.weights);
 
 
 %------- corruption of images / eval performance -----%
@@ -24,7 +24,11 @@ bad_p1 = addNoise(p1, 10);
 bad_p2 = addNoise(p2, 10);
 badInput = [bad_p0; bad_p1; bad_p2;];
 
-printCon(p0);
+n0_weight = binImg.weights(1, :);
+n1_weight = binImg.weights(2, :);
+n2_weight = binImg.weights(3, :);
+
+printOut(n0_weight);
 
 
 function pvec = addNoise(pvec, num)
@@ -42,21 +46,16 @@ function pvec = addNoise(pvec, num)
 end
 
 %----different printing functions----%
-%print the image out to a color map
+%print the image out to a color map, use for weights (output) because of
+%color scale
 function printOut(vec)
-    %adjust to be printed, resshaped for matrix
-    matrix = rot90(flipud(reshape(vec, 5, 6)), 3);
+    %adjust to be printed, resshaped for matrix, inverted for grey scale
+    matrix = 1 - rot90(flipud(reshape(vec, 5, 6)), 3);
     % Display the matrix using imagesc
-    imagesc(matrix);
-    % Set colormap (white for -1, black for 1)
-    colormap([1 1 1; 0 0 0]);
-    %color map settings
-    colorbar;
-    axis equal;
-    axis off;
+    imshow(matrix, 'InitialMagnification', 'fit', 'Colormap', gray);
 end
 
-% Print to console
+% Print to console, can be used for output or input
 function printCon(vec)
     %adjust to be printed, resshaped for matrix
     matrix = rot90(flipud(reshape(vec, 5, 6)), 3);
