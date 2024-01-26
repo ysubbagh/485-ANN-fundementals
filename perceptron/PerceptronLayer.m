@@ -122,7 +122,7 @@ classdef PerceptronLayer
         end
 
         %modify the weights and biases using a supervised training rule
-        function train(this, inputs, target)
+        function this = train(this, inputs, target)
            %setup error vector
            eVec = PerceptronLayer.errorLoss(this.forwardOps(inputs.'), target);
            %train until error is 0 for all

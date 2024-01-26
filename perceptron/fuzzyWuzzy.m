@@ -16,6 +16,14 @@ input = [
 %target values
 targets = [0; 0; 0; 0; 1; 1; 1; 1;];
 
-%train & report
-fuzzyLayer.train(input, targets);
+%train
+fuzzyLayer = fuzzyLayer.train(input, targets);
+
+%printing for validation
 fuzzyLayer.print();
+output = fuzzyLayer.forwardOps(input.').';
+for(i = 1: size(input, 1))
+    disp("input: ");
+    disp(input(i, :));
+    disp("target: " + targets(i, :) + " | output: " + output(i, :));
+end
