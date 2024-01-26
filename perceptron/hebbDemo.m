@@ -15,3 +15,10 @@ binImg = binImg.train(inputPattern, targets);
 
 %print for validation
 binImg.print();
+
+
+
+
+
+
+

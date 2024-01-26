@@ -98,20 +98,12 @@ classdef PerceptronLayer
             if size(eVec, 2) ~= this.numOutputs
                 error('Length of the errors vector must match the number of neurons.');
             end
-
+            
             % Update weights and bias
-            disp("evec val: " + eVec(n, :));
-            disp("bias before: " + this.bias);
-
-            this.bias = this.bias + eVec(n, :);
-
-            disp("bias after: " + this.bias);
-
-            disp("weights before: ");
-            disp(this.weights);
-            this.weights = this.weights + this.lastInput * eVec(n, :);
-            disp("weights after: ");
-            disp(this.weights);
+            for i = 1:this.numOutputs
+                this.bias(i) = this.bias(i) + eVec(n, i);
+                this.weights(i , :) = this.weights(i, :) + this.lastInput * eVec(n, i);
+            end
         end
     
         %print out the layer's weights and biases (to the console)
@@ -147,15 +139,9 @@ classdef PerceptronLayer
                 if count > size(output, 1)
                     count = 1;
                 end
-
-                disp("evec: ");
-                disp(eVec);
-
-                %this.print();
            end
             
         end
-
     end
 
     %outside of PerceptronLayer class
