@@ -15,3 +15,6 @@ targets = [t0 t1 t2];
 
 %train
 binImg = binImg.train(inputPattern, targets);
+
+%printing for validation
+binImg.print();
