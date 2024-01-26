@@ -22,7 +22,7 @@ fuzzyLayer = fuzzyLayer.train(input, targets);
 %printing for validation
 fuzzyLayer.print();
 output = fuzzyLayer.forwardOps(input.').';
-for(i = 1: size(input, 1))
+for i = 1: size(input, 1)
     disp("input: ");
     disp(input(i, :));
     disp("target: " + targets(i, :) + " | output: " + output(i, :));
