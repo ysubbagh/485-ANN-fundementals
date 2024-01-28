@@ -16,6 +16,43 @@ binImg = binImg.train(inputPattern, targets);
 %print for validation
 %printCon(binImg.weights);
 
+% Number of noisy versions
+numVersions = 100;
+
+% Levels of noise
+noiseLevels = [2, 4, 6, 8];
+
+% Initialize accuracy matrix
+accuracyMatrix = zeros(length(noiseLevels), 1);
+
+for i = 1:length(noiseLevels)
+    noiseLevel = noiseLevels(i);
+    correctCount = 0;
+
+    % Generate and classify noisy versions
+    for j = 1:numVersions
+        % Generate noisy versions
+        noisyInput = addNoise(inputPattern, noiseLevel);
+
+        % Classify using the trained network
+        output = binImg.forwardOps(noisyInput');
+
+        % Check correctness
+        if isCorrectlyClassified(output, targets)
+            correctCount = correctCount + 1;
+        end
+    end
+
+    % Calculate accuracy
+    accuracyMatrix(i) = (correctCount / numVersions) * 100;
+end
+
+% Plot the graph
+plot(noiseLevels, accuracyMatrix, '-o');
+xlabel('Number of Pixels Flipped');
+ylabel('Classification Accuracy (%)');
+title('Network Performance with Noisy Inputs');
+grid on;
 
 %------- corruption of images / eval performance -----%
 %edited input patterns
@@ -72,6 +109,9 @@ function printCon(vec)
     end
 end
 
-
-
-
+% Function to check correctness
+function correct = isCorrectlyClassified(output, target)
+    [~, predictedClass] = max(output);
+    [~, trueClass] = max(target);
+    correct = predictedClass == trueClass;
+end
